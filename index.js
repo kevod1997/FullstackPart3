@@ -6,11 +6,9 @@ const app = express();
 app.use(express.json())
 
 const getBody = (req) => JSON.stringify(req.body);
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body', {
-  stream: { write: message => console.log(message.trim()) },
-  skip: (req, res) => res.statusCode < 400,
-  tokens: { body: getBody }
-}));
+morgan.token('body', getBody);
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 
 
